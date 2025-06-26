@@ -1,5 +1,6 @@
 package com.witalo.dscatalog.entites;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_category")
 public class Category implements Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
