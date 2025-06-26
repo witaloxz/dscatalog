@@ -16,6 +16,5 @@ public class CategoryService {
 	
 	public List<Category> findAll(){
 		return repository.findAll();
-		
 	}
 }
