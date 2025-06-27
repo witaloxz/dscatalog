@@ -1,17 +1,17 @@
 package com.witalo.dscatalog.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import com.witalo.dscatalog.dto.CategoryDTO;
+import jakarta.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.witalo.dscatalog.entites.Category;
 import com.witalo.dscatalog.services.CategoryService;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "/categories")
@@ -31,4 +31,14 @@ public class CategoryResource {
 			CategoryDTO dto = service.findByid(id);
 			return ResponseEntity.ok().body(dto);
 	}
+
+	@PostMapping
+	public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO dto) {
+		dto = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(dto.getId()).toUri();
+		return ResponseEntity.created(uri).body(dto);
+	}
+
+
 }
