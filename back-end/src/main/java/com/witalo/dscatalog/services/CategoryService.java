@@ -5,9 +5,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.witalo.dscatalog.dto.CategoryDTO;
+import com.witalo.dscatalog.services.exceptions.DataBaseException;
 import com.witalo.dscatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.witalo.dscatalog.entites.Category;
@@ -55,4 +58,17 @@ public class CategoryService {
 
 
     }
+
+	public void delete(Long id) {
+		try{
+			repository.deleteById(id);
+		}
+		catch (EmptyResultDataAccessException e){
+			throw new ResourceNotFoundException("Id not found " + id);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataBaseException("Integration violation");
+		}
+
+	}
 }

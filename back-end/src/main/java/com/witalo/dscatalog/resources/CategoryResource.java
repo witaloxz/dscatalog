@@ -16,20 +16,21 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryResource {
-	
+
 	@Autowired
 	private CategoryService service;
-	
+
 	@GetMapping
-	public ResponseEntity<List<CategoryDTO>> findAll(){
+	public ResponseEntity<List<CategoryDTO>> findAll() {
 		List<CategoryDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
-		
+
 	}
+
 	@GetMapping("/{id}")
-	public ResponseEntity<CategoryDTO> finById(@PathVariable Long id ){
-			CategoryDTO dto = service.findByid(id);
-			return ResponseEntity.ok().body(dto);
+	public ResponseEntity<CategoryDTO> finById(@PathVariable Long id) {
+		CategoryDTO dto = service.findByid(id);
+		return ResponseEntity.ok().body(dto);
 	}
 
 	@PostMapping
@@ -41,10 +42,15 @@ public class CategoryResource {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoryDTO> update(@PathVariable Long id,@RequestBody CategoryDTO dto){
-		dto = service.update(id,dto);
+	public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody CategoryDTO dto) {
+		dto = service.update(id, dto);
 		return ResponseEntity.ok().body(dto);
 	}
 
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 
 }

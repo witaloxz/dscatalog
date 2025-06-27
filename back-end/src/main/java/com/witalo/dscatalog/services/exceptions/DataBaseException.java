@@ -2,11 +2,11 @@ package com.witalo.dscatalog.services.exceptions;
 
 import java.io.Serial;
 
-public class ResourceNotFoundException extends RuntimeException{
+public class DataBaseException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public ResourceNotFoundException(String msg){
+    public DataBaseException(String msg){
         super(msg);
     }
 }
