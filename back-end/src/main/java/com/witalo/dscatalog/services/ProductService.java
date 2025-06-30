@@ -1,7 +1,10 @@
 package com.witalo.dscatalog.services;
 
+import com.witalo.dscatalog.dto.CategoryDTO;
 import com.witalo.dscatalog.dto.ProductDTO;
+import com.witalo.dscatalog.entites.Category;
 import com.witalo.dscatalog.entites.Product;
+import com.witalo.dscatalog.repositories.CategoryRepository;
 import com.witalo.dscatalog.repositories.ProductRepository;
 import com.witalo.dscatalog.services.exceptions.DataBaseException;
 import com.witalo.dscatalog.services.exceptions.ResourceNotFoundException;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -22,6 +26,9 @@ public class ProductService {
 
     @Autowired
     ProductRepository repository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
@@ -39,11 +46,8 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setPrice(dto.getPrice());
-        entity.setImgURL(dto.getImgURL());
-        entity.setDate(dto.getDate());
+        copyDoToEntity(dto,entity);
+        entity.setDate(Instant.now());
         entity = repository.save(entity);
         return new ProductDTO(entity);
     }
@@ -52,11 +56,8 @@ public class ProductService {
     public ProductDTO update(Long id, ProductDTO dto) {
         try {
             Product entity = repository.getOne(id);
-            entity.setName(dto.getName());
-            entity.setDescription(dto.getDescription());
-            entity.setPrice(dto.getPrice());
-            entity.setImgURL(dto.getImgURL());
-            entity.setDate(dto.getDate());
+            copyDoToEntity(dto,entity);
+            entity.setDate(Instant.now());
             entity = repository.save(entity);
             return new ProductDTO(entity);
         } catch (EntityNotFoundException e) {
@@ -71,6 +72,19 @@ public class ProductService {
             throw new ResourceNotFoundException("Id not found " + id);
         } catch (DataIntegrityViolationException e) {
             throw new DataBaseException("Integrity violation");
+        }
+    }
+
+    private void copyDoToEntity(ProductDTO dto, Product entity){
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgURL(dto.getImgURL());
+
+        entity.getCategories().clear();
+        for(CategoryDTO catDTO : dto.getCategories()){
+            Category category =  categoryRepository.getOne(catDTO.getId());
+            entity.getCategories().add(category);
         }
     }
 }
