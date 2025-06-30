@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 
 import com.witalo.dscatalog.dto.CategoryDTO;
-import jakarta.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.witalo.dscatalog.entites.Category;
 import com.witalo.dscatalog.services.CategoryService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,7 +36,7 @@ public class CategoryResource {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<CategoryDTO> finById(@PathVariable Long id) {
+	public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
 		CategoryDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
