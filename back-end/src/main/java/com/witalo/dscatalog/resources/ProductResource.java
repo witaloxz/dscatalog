@@ -5,6 +5,7 @@ import java.net.URI;
 import com.witalo.dscatalog.dto.ProductDTO;
 import com.witalo.dscatalog.services.ProductService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +35,7 @@ public class ProductResource {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
+    public ResponseEntity<ProductDTO> insert(@RequestBody @Valid ProductDTO dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -42,7 +43,7 @@ public class ProductResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
+    public ResponseEntity<ProductDTO> update(@Valid @PathVariable Long id, @RequestBody ProductDTO dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
