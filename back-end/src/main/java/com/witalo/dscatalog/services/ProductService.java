@@ -8,13 +8,11 @@ import com.witalo.dscatalog.repositories.CategoryRepository;
 import com.witalo.dscatalog.repositories.ProductRepository;
 import com.witalo.dscatalog.services.exceptions.DataBaseException;
 import com.witalo.dscatalog.services.exceptions.ResourceNotFoundException;
-
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

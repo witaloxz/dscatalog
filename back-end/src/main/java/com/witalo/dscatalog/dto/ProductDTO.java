@@ -2,6 +2,10 @@ package com.witalo.dscatalog.dto;
 
 import com.witalo.dscatalog.entites.Category;
 import com.witalo.dscatalog.entites.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -15,10 +19,19 @@ public class ProductDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @Size(min = 10, max = 100, message = "O nime deve ter entre 10 a 100 caracteres")
+    @NotBlank(message = "O Campo não pode ser vazio")
     private String name;
+
+    @NotBlank(message = "O produto deve ter uma descrição")
     private String description;
+
+    @Positive(message = "O valor deve ser positivo")
     private Double price;
     private String imgURL;
+
+    @PastOrPresent(message = "A data do produto não pode ser futura")
     private Instant date;
 
     private List<CategoryDTO> categories = new ArrayList<>();
