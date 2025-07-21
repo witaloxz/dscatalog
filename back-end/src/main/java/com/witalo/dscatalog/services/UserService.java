@@ -4,6 +4,7 @@ import com.witalo.dscatalog.config.AppConfig;
 import com.witalo.dscatalog.dto.RoleDTO;
 import com.witalo.dscatalog.dto.UserDTO;
 import com.witalo.dscatalog.dto.UserInsertDTO;
+import com.witalo.dscatalog.dto.UserUpdateDTO;
 import com.witalo.dscatalog.entites.Role;
 import com.witalo.dscatalog.entites.User;
 import com.witalo.dscatalog.repositories.RoleRepository;
@@ -56,7 +57,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO dto) {
+    public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
             User entity = repository.getOne(id);
             copyDoToEntity(dto,entity);
