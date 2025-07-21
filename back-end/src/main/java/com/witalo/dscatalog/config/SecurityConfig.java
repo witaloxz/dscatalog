@@ -6,11 +6,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class securityConfig {
+public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable());
-        http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+        http
+                .csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions().disable()) // permite iframes (usado pelo H2)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .anyRequest().permitAll()
+                );
         return http.build();
     }
 }
+
